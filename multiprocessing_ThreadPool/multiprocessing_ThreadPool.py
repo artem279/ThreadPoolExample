@@ -5,7 +5,7 @@ from lxml import etree, objectify
 import os, csv, time
 
 csv.register_dialect('csvCommaDialect', delimiter='|', lineterminator='\n')
-
+mutex = Lock()
 
 def getfiles(path):
     filearray = []
@@ -44,7 +44,7 @@ def getinn(file):
     except Exception as e:
         print('Error!', file)
         pass
-    mutex = Lock()
+    
     root = cleannamespaces(doc.getroot())
     suppliers = []
     suppliers = [{'inn': s.text.strip()} for s in root.iter('INN') if s.text != '' and s.text is not None]
